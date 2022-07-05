@@ -6,6 +6,6 @@ namespace computer_vision_quickstart
         public string Name { get; set;}
         public DateOnly DateofBirth { get; set;}
         public DateOnly ExpiryDate { get; set; }
-        public string Card Number { get; set;}
+        public string CardNumber { get; set;}
     }
 }
