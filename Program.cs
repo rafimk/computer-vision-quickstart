@@ -17,7 +17,7 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
     // Extract text (OCR) from a URL image using the Read API
     // ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
 
-    var fileName = @"D:\POC\computer-vision-quickstart\Set5-A.jpg";
+    var fileName = @"D:\POC\computer-vision-quickstart\Set1-B.jpg";
 
     ReadFileLocal(client, fileName).Wait();
 
