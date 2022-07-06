@@ -1,5 +1,9 @@
 ﻿using Microsoft.Azure.CognitiveServices.Vision.ComputerVision;
 using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
+using System;
+using System.Text;
+using System.Text.RegularExpressions;
+using computer_vision_quickstart;
 
 
     // Add your Computer Vision subscription key and endpoint
@@ -15,7 +19,7 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
     ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
 
     // Extract text (OCR) from a URL image using the Read API
-    // ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
+    //ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
 
     var fileName = @"D:\POC\computer-vision-quickstart\Set1-B.jpg";
 
@@ -58,6 +62,8 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
         while ((results.Status == OperationStatusCodes.Running ||
             results.Status == OperationStatusCodes.NotStarted));
 
+        var readResult = new StringBuilder();
+
         // Display the found text.
         Console.WriteLine();
         var textUrlFileResults = results.AnalyzeResult.ReadResults;
@@ -65,9 +71,14 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
         {
             foreach (Line line in page.Lines)
             {
+                readResult.Append(line.Text);
                 Console.WriteLine(line.Text);
             }
         }
+        Console.WriteLine();
+        Console.WriteLine("----------------------------------------------------------");
+        Console.WriteLine(readResult);
+        Console.WriteLine("----------------------------------------------------------");
         Console.WriteLine();
     }
 
@@ -101,6 +112,8 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
             results.Status == OperationStatusCodes.NotStarted));
         // </snippet_extract_response>
 
+         var readResult = new StringBuilder();
+
         // <snippet_extract_display>
         // Display the found text.
         Console.WriteLine();
@@ -109,9 +122,48 @@ using Microsoft.Azure.CognitiveServices.Vision.ComputerVision.Models;
         {
             foreach (Line line in page.Lines)
             {
+                readResult.Append(line.Text + " ");
                 Console.WriteLine(line.Text);
             }
         }
+
+        var finalResult = readResult.ToString().RemoveSpecialCharacters();
+
+        // int firstStringPositionForEid = finalResult.IndexOf("ID Number ");    
+        // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);    
+
+        // int firstStringPositionForName = finalResult.IndexOf("Name:");    
+        // int secondStringPositionForName = finalResult.IndexOf(":  Nationality:");    
+        // string name = finalResult.Substring(firstStringPositionForName + 5, secondStringPositionForName - (firstStringPositionForName + 5));    
+
+        var dob = "";
+        // var split = name.Split(":");
+        
+        // if (split.Length > 1)
+        // {
+        //     name = split[0];
+        //     expiry = split[1].Substring(0, 8);
+        // }
+
+        
+
+        int firstStringPositionForDob = finalResult.IndexOf(" Date of Birth");
+
+        if (firstStringPositionForDob > 0) 
+        {
+            dob = finalResult.Substring(firstStringPositionForDob - 8, 8);
+        }
+        // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);  
+
+
+        Console.WriteLine();
+        Console.WriteLine("----------------------------------------------------------");
+        Console.WriteLine(finalResult);
+        Console.WriteLine("----------------------------------------------------------");
+        // Console.WriteLine(eidNo);
+        // Console.WriteLine(name);
+        Console.WriteLine(dob);
+        Console.WriteLine("----------------------------------------------------------");
         Console.WriteLine();
     }
-
+   
