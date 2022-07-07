@@ -21,7 +21,7 @@ using computer_vision_quickstart;
     // Extract text (OCR) from a URL image using the Read API
     //ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
 
-    var fileName = @"D:\POC\computer-vision-quickstart\Set1-B.jpg";
+    var fileName = @"D:\POC\computer-vision-quickstart\Set8-B.jpg";
 
     ReadFileLocal(client, fileName).Wait();
 
@@ -64,7 +64,7 @@ using computer_vision_quickstart;
 
         var readResult = new StringBuilder();
 
-        // Display the found text.
+         // Display the found text.
         Console.WriteLine();
         var textUrlFileResults = results.AnalyzeResult.ReadResults;
         foreach (ReadResult page in textUrlFileResults)
@@ -129,6 +129,40 @@ using computer_vision_quickstart;
 
         var finalResult = readResult.ToString().RemoveSpecialCharacters();
 
+        Console.WriteLine("----------------------------------------------------------");
+        Console.WriteLine(finalResult);
+        Console.WriteLine("----------------------------------------------------------");
+
+        // Check if the card is new or old 
+        if (finalResult.IndexOf("Name:") > 0 && finalResult.IndexOf("Expiry Date") > 0)
+        {
+            // New card front side.
+            Console.WriteLine("New card front side.");
+        }
+
+        if (finalResult.IndexOf("Name:") > 0 && finalResult.IndexOf("Expiry Date") == -1)
+        {
+            // Old card front side.
+            Console.WriteLine("Old card front side.");
+        }
+
+        if (finalResult.IndexOf("Issuing Place:") > 0)
+        {
+            // New card back side
+            Console.WriteLine("New card back side");
+        }
+
+        if (finalResult.IndexOf("Sex:") > 0 && finalResult.IndexOf("Name:") == -1)
+        {
+            // Old card back side
+            Console.WriteLine("Old card back side");
+        }
+
+        // var firstIndex = finalResult.IndexOf("Sex:");
+        // var secondIndex = finalResult.IndexOf("Name:");
+        // Console.WriteLine($"First index {firstIndex}, Second index {secondIndex}");
+
+
         // int firstStringPositionForEid = finalResult.IndexOf("ID Number ");    
         // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);    
 
@@ -136,7 +170,7 @@ using computer_vision_quickstart;
         // int secondStringPositionForName = finalResult.IndexOf(":  Nationality:");    
         // string name = finalResult.Substring(firstStringPositionForName + 5, secondStringPositionForName - (firstStringPositionForName + 5));    
 
-        var dob = "";
+        // var dob = "";
         // var split = name.Split(":");
         
         // if (split.Length > 1)
@@ -145,25 +179,41 @@ using computer_vision_quickstart;
         //     expiry = split[1].Substring(0, 8);
         // }
 
-        
+        // var expiry = "";
+        // var cardNo = "";
 
-        int firstStringPositionForDob = finalResult.IndexOf(" Date of Birth");
+        // int firstStringPositionForExpiry = finalResult.IndexOf("Card Number");
 
-        if (firstStringPositionForDob > 0) 
-        {
-            dob = finalResult.Substring(firstStringPositionForDob - 8, 8);
-        }
-        // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);  
+        // if (firstStringPositionForExpiry > 0) 
+        // {
+        //     expiry = finalResult.Substring(firstStringPositionForExpiry + 11, 23);
+        //     var expirySplit = expiry.Split(" ");
+        //     if (expirySplit.Length > 2)
+        //     {
+        //         expiry = expirySplit[1];
+        //         cardNo = expirySplit[2];
+        //     }
+        // }
 
+        // // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);  
 
-        Console.WriteLine();
-        Console.WriteLine("----------------------------------------------------------");
-        Console.WriteLine(finalResult);
-        Console.WriteLine("----------------------------------------------------------");
-        // Console.WriteLine(eidNo);
-        // Console.WriteLine(name);
-        Console.WriteLine(dob);
-        Console.WriteLine("----------------------------------------------------------");
-        Console.WriteLine();
+        // int firstStringPositionForDob = finalResult.IndexOf(" Date of Birth");
+
+        // if (firstStringPositionForDob > 0) 
+        // {
+        //     dob = finalResult.Substring(firstStringPositionForDob - 10, 10);
+        // }
+
+        // Console.WriteLine();
+        // Console.WriteLine("----------------------------------------------------------");
+        // Console.WriteLine(finalResult);
+        // Console.WriteLine("----------------------------------------------------------");
+        // // Console.WriteLine(eidNo);
+        // // Console.WriteLine(name);
+        // Console.WriteLine(dob);
+        // Console.WriteLine(expiry);
+        // Console.WriteLine(cardNo);
+        // Console.WriteLine("----------------------------------------------------------");
+        // Console.WriteLine();
     }
    
