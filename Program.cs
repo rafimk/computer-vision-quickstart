@@ -7,8 +7,8 @@ using computer_vision_quickstart;
 
 
     // Add your Computer Vision subscription key and endpoint
-    string subscriptionKey = "70e5ba5b9aa7470d80868632927cf0c3";
-    string endpoint = "https://MembershipApp.cognitiveservices.azure.com/";
+    string subscriptionKey = "d4f537561bdd405489046ac0e633cdc0";
+    string endpoint = "https://uaekmcc.cognitiveservices.azure.com/";
 
     const string READ_TEXT_URL_IMAGE = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg";
 
@@ -21,7 +21,7 @@ using computer_vision_quickstart;
     // Extract text (OCR) from a URL image using the Read API
     //ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
 
-    var fileName = @"C:\Projects\computer-vision-quickstart\Set2-B.jpg";
+    var fileName = @"D:\POC\computer-vision-quickstart\Set2-A.jpg";
 
     ReadFileLocal(client, fileName).Wait();
 
@@ -137,7 +137,10 @@ using computer_vision_quickstart;
         if (finalResult.IndexOf("Name:") > 0 && finalResult.IndexOf("Expiry Date") > 0)
         {
             // New card front side.
+            var genderIndexStart = finalResult.IndexOf("Sex:");
+            var gender = finalResult.Substring(genderIndexStart + 5, 1);
             Console.WriteLine("New card front side.");
+            Console.WriteLine($"Gender : {gender}");
         }
 
         if (finalResult.IndexOf("Name:") > 0 && finalResult.IndexOf("Expiry Date") == -1)
@@ -155,7 +158,10 @@ using computer_vision_quickstart;
         if (finalResult.IndexOf("Sex:") > 0 && finalResult.IndexOf("Name:") == -1)
         {
             // Old card back side
+            var genderIndexStart = finalResult.IndexOf("Sex:");
+            var gender = finalResult.Substring(genderIndexStart + 5, 1);
             Console.WriteLine("Old card back side");
+            Console.WriteLine($"Gender : {gender}");
         }
 
         // var firstIndex = finalResult.IndexOf("Sex:");
