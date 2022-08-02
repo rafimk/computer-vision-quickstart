@@ -238,5 +238,111 @@ string subscriptionKey = "d4f537561bdd405489046ac0e633cdc0";
         // Console.WriteLine(cardNo);
         // Console.WriteLine("----------------------------------------------------------");
         // Console.WriteLine();
+
+        var result = finalResult;
+        // string eidNo = "";
+        // string name = "";
+        
+        // int firstStringPositionForEid = result.IndexOf("ID Number ");    
+        // eidNo = result.Substring(firstStringPositionForEid + 10, 18);   
+        
+        // int firstStringPositionForName = result.IndexOf("Name:");    
+        // int secondStringPositionForName = result.IndexOf(":  Nationality:");    
+        // name = result.Substring(firstStringPositionForName + 5, secondStringPositionForName - (firstStringPositionForName + 5));    
+
+        // var split = name.Split(":");
+        
+        // if (split.Length > 1)
+        // {
+        //     name = split[0];
+        // }
+
+        // Console.WriteLine("------------------Old Front Side----------------------");
+        // Console.WriteLine(eidNo);
+        // Console.WriteLine(name);
+        // Console.WriteLine("----------------------------------------------------------");
+
+        // var expiry = "";
+        // var cardNo = "";
+        // var dob = "";
+
+        // int firstStringPositionForExpiry = finalResult.IndexOf("Card Number");
+
+        // if (firstStringPositionForExpiry > 0) 
+        // {
+        //     expiry = finalResult.Substring(firstStringPositionForExpiry + 11, 23);
+        //     var expirySplit = expiry.Split(" ");
+        //     if (expirySplit.Length > 2)
+        //     {
+        //         expiry = expirySplit[1];
+        //         cardNo = expirySplit[2];
+        //     }
+        // }
+        
+        // int firstStringPositionForDob = finalResult.IndexOf(" Date of Birth");
+
+        // if (firstStringPositionForDob > 0) 
+        // {
+        //     dob = finalResult.Substring(firstStringPositionForDob - 10, 10);
+        // }
+
+        // Console.WriteLine("------------------Old Back Side----------------------");
+        // Console.WriteLine(expiry.Substring(6,4));
+        // Console.WriteLine(cardNo);
+        // Console.WriteLine(dob);
+        // Console.WriteLine("----------------------------------------------------------");
+
+        // var firstIndex = finalResult.IndexOf("Sex:");
+        // var secondIndex = finalResult.IndexOf("Name:");
+        // var dob = "";
+        // var expiry = "";
+
+
+        // int firstStringPositionForEid = finalResult.IndexOf("ID Number ");    
+        // string eidNo = finalResult.Substring(firstStringPositionForEid + 10, 18);    
+
+        // int firstStringPositionForName = finalResult.IndexOf("Name:");    
+        // int secondStringPositionForName = finalResult.IndexOf(":  Nationality:");    
+        // string name = finalResult.Substring(firstStringPositionForName + 5, secondStringPositionForName - (firstStringPositionForName + 5));    
+        
+        // var split = name.Split(":");
+        
+        // if (split.Length > 0)
+        // {
+        //     name = split[0];
+        // }
+
+        // expiry = DataTypeExtensions.Right(finalResult.Trim(), 10);
+
+        // int firstStringPositionForDob = finalResult.IndexOf(" Date of Birth");
+
+        // if (firstStringPositionForDob > 0) 
+        // {
+        //     dob = finalResult.Substring(firstStringPositionForDob - 10, 10);
+        // }
+
+        // Console.WriteLine("------------------New Front Side----------------------");
+        // Console.WriteLine(eidNo);
+        // Console.WriteLine(name);
+        // Console.WriteLine(dob);
+        // Console.WriteLine(expiry);
+        // Console.WriteLine("----------------------------------------------------------");
+
+        var cardNo = "";
+        int firstStringPositionForCardNoStart = finalResult.IndexOf("Card Number");
+        int firstStringPositionForCardNoEnd = finalResult.IndexOf(":");
+        var firstPart = finalResult.Substring(firstStringPositionForCardNoStart, firstStringPositionForCardNoEnd);
+
+        var split = firstPart.Split(" ");
+
+        if (split.Length > 2)
+        {
+            cardNo = split[2];
+        }
+
+        Console.WriteLine("------------------New Back Side----------------------");
+        Console.WriteLine(cardNo);
+        Console.WriteLine("----------------------------------------------------------");
+
     }
    
