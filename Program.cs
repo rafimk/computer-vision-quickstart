@@ -4,13 +4,15 @@ using System;
 using System.Text;
 using System.Text.RegularExpressions;
 using computer_vision_quickstart;
+using Azure.Storage.Blobs;
+using Azure.Storage.Blobs.Models;
 
 
-    // Add your Computer Vision subscription key and endpoint
-    string subscriptionKey = "d4f537561bdd405489046ac0e633cdc0";
+// Add your Computer Vision subscription key and endpoint
+string subscriptionKey = "d4f537561bdd405489046ac0e633cdc0";
     string endpoint = "https://uaekmcc.cognitiveservices.azure.com/";
 
-    const string READ_TEXT_URL_IMAGE = "https://raw.githubusercontent.com/Azure-Samples/cognitive-services-sample-data-files/master/ComputerVision/Images/printed_text.jpg";
+    const string READ_TEXT_URL_IMAGE = @"https://kmccfileupload.blob.core.windows.net/images/Set2-A.jpg";
 
 
     Console.WriteLine("Azure Cognitive Services Computer Vision - .NET quickstart example");
@@ -19,7 +21,7 @@ using computer_vision_quickstart;
     ComputerVisionClient client = Authenticate(endpoint, subscriptionKey);
 
     // Extract text (OCR) from a URL image using the Read API
-    //ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
+    // ReadFileUrl(client, READ_TEXT_URL_IMAGE).Wait();
 
     var fileName = @"D:\POC\computer-vision-quickstart\Set2-A.jpg";
 
@@ -88,7 +90,22 @@ using computer_vision_quickstart;
         Console.WriteLine("READ FILE FROM LOCAL");
         Console.WriteLine();
 
-        // Read text from URL
+        var localFilePath = "Set2-A.jpg";
+
+        string connectionString = "DefaultEndpointsProtocol=https;AccountName=kmccfileupload;AccountKey=h+PFVsQg8A6A9S43/lDDABLNO6GyzGTmGRgH6op5KHwXo85jyBrD7XivcCtWvZvZJHNFIp84my43+AStWH/JCw==;EndpointSuffix=core.windows.net";
+        string containerName = "images";
+            
+        // Create a BlobServiceClient object which will be used to create a container client
+        BlobServiceClient blobServiceClient = new BlobServiceClient(connectionString);
+        BlobContainerClient containerClient = blobServiceClient.GetBlobContainerClient(containerName);
+
+        BlobClient blobClient = containerClient.GetBlobClient(localFilePath);
+
+        FileStream fileStream = File.OpenWrite(localFilePath);
+        await blobClient.DownloadToAsync(fileStream);
+        fileStream.Close();
+
+        // Read text from URL ** Enable for local **
         var textHeaders = await client.ReadInStreamAsync(File.OpenRead(localFile));
         // After the request, get the operation location (operation ID)
         string operationLocation = textHeaders.OperationLocation;
