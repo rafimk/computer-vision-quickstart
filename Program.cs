@@ -101,12 +101,13 @@ string subscriptionKey = "d4f537561bdd405489046ac0e633cdc0";
 
         BlobClient blobClient = containerClient.GetBlobClient(localFilePath);
 
-        FileStream fileStream = File.OpenWrite(localFilePath);
-        await blobClient.DownloadToAsync(fileStream);
-        fileStream.Close();
+
+        using var memoryStream = new MemoryStream();
+        await blobClient.DownloadToAsync(memoryStream);
+        memoryStream.Position = 0;
 
         // Read text from URL ** Enable for local **
-        var textHeaders = await client.ReadInStreamAsync(File.OpenRead(localFile));
+        var textHeaders = await client.ReadInStreamAsync(memoryStream);
         // After the request, get the operation location (operation ID)
         string operationLocation = textHeaders.OperationLocation;
         Thread.Sleep(2000);
